@@ -1,7 +1,5 @@
 package com.example.bank.web.controller;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,7 @@ public class AccountController {
 	
 	@PostMapping("/user/{userId}/account")
 	public ResponseEntity<AccountDto> createAccount(@PathVariable(value = "userId") Long userId,
-			@Valid @RequestBody AccountDto accountDto) {
+			@RequestBody AccountDto accountDto) {
 		return new ResponseEntity<>(accountService.createAccount(userId, accountDto), HttpStatus.CREATED);
 	}
 

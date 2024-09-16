@@ -1,30 +1,15 @@
 package com.example.bank.web.dto;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(description = "User Data Transfer Object")
 public class UserDto {
 	
 	private Long id;
 	
-	@Schema(description = "User First Name", required = true)
-    @NotBlank(message = "First name is mandatory")
-    @Size(max = 50, message = "First name cannot be longer than 50 characters")
 	private String firstName;
 	
-    @NotBlank(message = "Last name is mandatory")
-    @Size(max = 50, message = "Last name cannot be longer than 50 characters")
 	private String lastName;
 	
-    @NotBlank(message = "Address is mandatory")
-    @Size(max = 100, message = "Address cannot be longer than 100 characters")
 	private String adress;
 	
-    @NotBlank(message = "City is mandatory")
-    @Size(max = 50, message = "City cannot be longer than 50 characters")
 	private String city;
 	
 	// String je jer negde pocinje ima i slova u ovom zipcodu
@@ -33,9 +18,6 @@ public class UserDto {
 	// String je a ne int ili long zbog + (tj pozivnog broja)
 	private String phone;
 	
-	@Schema(description = "User Email", required = true)
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
 	private String email;
 
 	public UserDto(Long id, String firstName, String lastName, String adress, String city, String zipCode, String phone,

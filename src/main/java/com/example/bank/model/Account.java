@@ -1,10 +1,6 @@
 package com.example.bank.model;
 
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,11 +15,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{13}-[0-9]{2}$", message = "Invalid account number format")
 	private String accountNumber;
 	
-	@NotNull(message = "Balance cannot be null")
-	@Positive(message = "Balance must be positive")
     private double balance;
 
     @ManyToOne
