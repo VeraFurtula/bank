@@ -3,21 +3,35 @@ package com.learning.bank.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class UserUpdateDto {
-    @NotBlank(message = "First name is mandatory field")
+    @NotBlank(message = "First name is a mandatory field")
+    @Size(min = 2, max = 30, message = "First name must be between 2 and 30 characters")
     private String firstName;
 
-    @NotBlank(message = "Last name is mandatory field")
+    @NotBlank(message = "Last name is a mandatory field")
+    @Size(min = 2, max = 30, message = "Last name must be between 2 and 30 characters")
     private String lastName;
 
+    @Size(max = 100, message = "Address cannot exceed 100 characters")
     private String address;
+
+    @Size(max = 50, message = "City cannot exceed 50 characters")
     private String city;
+
+    @Pattern(regexp = "\\d{5}", message = "Zip code must be exactly 5 digits")
     private String zipCode;
+
+    @Pattern(regexp = "\\+?[0-9. ()-]{7,25}", message = "Phone number is invalid")
     private String phone;
 
+    @NotBlank(message = "Email is a mandatory field")
     @Email(message = "Email should be valid")
     private String email;
+
+    // Getteri i setteri
 
     public String getFirstName() {
         return firstName;

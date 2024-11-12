@@ -1,45 +1,39 @@
-package com.learning.bank.model;
+package com.learning.bank.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.List;
+public class UserDto {
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "First name is a mandatory field")
+    @Size(min = 2, max = 30, message = "First name must be between 2 and 30 characters")
     private String firstName;
+
+    @NotBlank(message = "Last name is a mandatory field")
+    @Size(min = 2, max = 30, message = "Last name must be between 2 and 30 characters")
     private String lastName;
+
+    @Size(max = 100, message = "Address cannot exceed 100 characters")
     private String address;
+
+    @Size(max = 50, message = "City cannot exceed 50 characters")
     private String city;
+
+    @Pattern(regexp = "\\d{5}", message = "Zip code must be exactly 5 digits")
     private String zipCode;
+
+    @Pattern(regexp = "\\+?[0-9. ()-]{7,25}", message = "Phone number is invalid")
     private String phone;
+
+    @NotBlank(message = "Email is a mandatory field")
+    @Email(message = "Email should be valid")
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts = new ArrayList<>();
-
-    public User() {
-        super();
-    }
-
-    public User(Long id, String firstName, String lastName, String address, String city, String zipCode, String phone, String email, List<Account> accounts) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.phone = phone;
-        this.email = email;
-        this.accounts = accounts;
-    }
+    // Getteri i seteri za sva polja
 
     public Long getId() {
         return id;
@@ -104,12 +98,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
 }
+

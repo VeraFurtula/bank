@@ -6,8 +6,6 @@ import com.learning.bank.repository.UserRepository;
 import com.learning.bank.service.UserService;
 import com.learning.bank.dto.UserCreateDto;
 import com.learning.bank.dto.UserResponseDto;
-import com.learning.bank.dto.UserUpdateDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,58 +13,49 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserResponseDto findUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return mapToResponseDto(user);
     }
 
     @Override
     public List<UserResponseDto> findAllUsers() {
-        return userRepository.findAll().stream().map(this::mapToResponseDto).collect(Collectors.toList());
-    }
-
-
-    @Override
-    public UserResponseDto createUser(UserCreateDto userCreateDto) {
-        User user = mapToEntity(userCreateDto);
-        User savedUser = userRepository.save(user);
-        return mapToResponseDto(savedUser);
+        return userRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public UserResponseDto updateUser(Long id, UserUpdateDto userUpdateDto) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setFirstName(userUpdateDto.getFirstName());
-        user.setLastName(userUpdateDto.getLastName());
-        user.setAddress(userUpdateDto.getAddress());
-        user.setCity(userUpdateDto.getCity());
-        user.setZipCode(userUpdateDto.getZipCode());
-        user.setPhone(userUpdateDto.getPhone());
-        user.setEmail(userUpdateDto.getEmail());
-        User updatedUser = userRepository.save(user);
-        return mapToResponseDto(updatedUser);
+    public void createUser(UserCreateDto userCreateDto) {
+        User user = new User();
+        mapToEntity(userCreateDto, user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(Long id, UserCreateDto userUpdateDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        mapToEntity(userUpdateDto, user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        userRepository.delete(user);
-    }
-
-    private User mapToEntity(UserCreateDto dto) {
-        User user = new User();
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setEmail(dto.getEmail());
-        return user;
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(id);
     }
 
     private UserResponseDto mapToResponseDto(User user) {
@@ -74,7 +63,21 @@ public class UserServiceImpl implements UserService {
         dto.setId(user.getId());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+        dto.setAddress(user.getAddress());
+        dto.setCity(user.getCity());
+        dto.setZipCode(user.getZipCode());
+        dto.setPhone(user.getPhone());
         dto.setEmail(user.getEmail());
         return dto;
+    }
+
+    private void mapToEntity(UserCreateDto dto, User user) {
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setAddress(dto.getAddress());
+        user.setCity(dto.getCity());
+        user.setZipCode(dto.getZipCode());
+        user.setPhone(dto.getPhone());
+        user.setEmail(dto.getEmail());
     }
 }

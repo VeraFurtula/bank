@@ -29,13 +29,13 @@ public class AccountController {
     @GetMapping
     public String listAccounts(Model model) {
         model.addAttribute("accounts", accountService.findAll());
-        return "account-list"; // Thymeleaf šablon za listu računa
+        return "account-list";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("account", new AccountDto());
-        return "account-form"; // Thymeleaf šablon za kreiranje računa
+        return "account-form";
     }
 
     @PostMapping("/save")
