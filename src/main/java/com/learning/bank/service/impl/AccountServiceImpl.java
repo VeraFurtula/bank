@@ -3,74 +3,53 @@ package com.learning.bank.service.impl;
 import com.learning.bank.model.Account;
 import com.learning.bank.repository.AccountRepository;
 import com.learning.bank.service.AccountService;
-import com.learning.bank.dto.AccountDto;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public AccountServiceImpl(AccountRepository accountRepository) {}
+
+    @Override
+    public Account findOne(Long id) {
+        return accountRepository.findOneById(id);
     }
 
     @Override
-    public List<AccountDto> findAll() {
-        return accountRepository.findAll()
-                .stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<Account> findAll() {
+        return accountRepository.findAll();
     }
 
     @Override
-    public AccountDto findById(Long id) {
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid account ID: " + id));
-        return convertToDto(account);
+    public Account save(Account account) {
+        return accountRepository.save(account);
     }
 
     @Override
-    @Transactional
-    public void save(AccountDto accountDto) {
-        Account account = convertToEntity(accountDto);
-        accountRepository.save(account);
+    public Account update(Account account) {
+        return accountRepository.save(account);
     }
 
     @Override
-    @Transactional
-    public void update(Long id, AccountDto accountDto) {
-        Account existingAccount = accountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid account ID: " + id));
-        existingAccount.setAccountNumber(accountDto.getAccountNumber());
-        existingAccount.setBalance(accountDto.getBalance());
-        accountRepository.save(existingAccount);
+    public Account delete(Long id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (accountOptional.isPresent()) {
+            accountRepository.deleteById(id);
+            return accountOptional.get();
+        }
+        return null;
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        accountRepository.deleteById(id);
-    }
-
-    private AccountDto convertToDto(Account account) {
-        AccountDto dto = new AccountDto();
-        dto.setId(account.getId());
-        dto.setAccountNumber(account.getAccountNumber());
-        dto.setBalance(account.getBalance());
-        return dto;
-    }
-
-    private Account convertToEntity(AccountDto accountDto) {
-        Account account = new Account();
-        account.setId(accountDto.getId());
-        account.setAccountNumber(accountDto.getAccountNumber());
-        account.setBalance(accountDto.getBalance());
-        return account;
+    public List<Account> findByAccountId(Long accountId) {
+        return accountRepository.findByUserId(accountId);
     }
 }

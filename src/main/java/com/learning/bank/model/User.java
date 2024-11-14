@@ -4,42 +4,39 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String firstName;
+
+    @Column
     private String lastName;
+
+    @Column
     private String address;
+
+    @Column
     private String city;
+
+    @Column
     private String zipCode;
+
+    @Column
     private String phone;
+
+    @Column
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts = new ArrayList<>();
-
-    public User() {
-        super();
-    }
-
-    public User(Long id, String firstName, String lastName, String address, String city, String zipCode, String phone, String email, List<Account> accounts) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.phone = phone;
-        this.email = email;
-        this.accounts = accounts;
-    }
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Account> accounts;
 
     public Long getId() {
         return id;

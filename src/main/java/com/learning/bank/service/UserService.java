@@ -1,18 +1,13 @@
 package com.learning.bank.service;
 
-import com.learning.bank.dto.UserCreateDto;
-import com.learning.bank.dto.UserResponseDto;
-import com.learning.bank.dto.UserUpdateDto;
-import jakarta.validation.Valid;
+import com.learning.bank.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    public UserResponseDto findUserById(Long id);
-    public List<UserResponseDto> findAllUsers();
-    public void createUser(UserCreateDto userCreateDto);
-    public void updateUser(Long id, UserCreateDto userUpdateDto);
-    void deleteUser(Long id);
-
-
+    User findOne(Long id);
+    List<User> findAll();
+    User save(User user);
+    User update(User user);
+    User delete(Long id);
 }

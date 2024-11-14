@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Account Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Account Details</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <p><strong>Account Number:</strong> <span th:text="${account.accountNumber}">Account Number</span></p>
+            <p><strong>Balance:</strong> <span th:text="${account.balance}">Balance</span></p>
+            <p><strong>User ID:</strong> <span th:text="${account.userId}">User ID</span></p>
+        </div>
+    </div>
+    <a href="/accounts" class="btn btn-secondary mt-3">Back to Account List</a>
+</div>
+</body>
+</html>

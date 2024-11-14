@@ -8,27 +8,20 @@ import jakarta.persistence.Id;
 @Entity
 @Table(name = "accounts")
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String accountNumber;
+
+    @Column
     private double balance;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    public Account() {
-        super();
-    }
-
-    public Account(Long id, String accountNumber, double balance, User user) {
-        this.id = id;
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;
@@ -61,5 +54,4 @@ public class Account {
     public void setUser(User user) {
         this.user = user;
     }
-
 }

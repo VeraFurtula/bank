@@ -1,9 +1,23 @@
-package com.learning.bank.dto;
+package com.learning.bank.web.dto;
 
-public class AccountDto {
+import com.learning.bank.model.User;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+
+public class AccountDTO {
     private Long id;
+
+    @NotNull
     private String accountNumber;
+
+    @NotNull
+    @Positive(message = "Balance should be positive number")
     private double balance;
+
+    @Positive(message = "Id should be positive number")
+    @NotNull
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -29,5 +43,11 @@ public class AccountDto {
         this.balance = balance;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

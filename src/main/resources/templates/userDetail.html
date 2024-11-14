@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>User Detail</h2>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>First Name:</strong> <span th:text="${user.firstName}">First Name</span></li>
+        <li class="list-group-item"><strong>Last Name:</strong> <span th:text="${user.lastName}">Last Name</span></li>
+        <li class="list-group-item"><strong>Email:</strong> <span th:text="${user.email}">Email</span></li>
+    </ul>
+
+    <!-- Accounts Section -->
+    <h3 class="mt-4">Accounts</h3>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="account : ${user.accounts}">
+            <strong>Account Number:</strong> <span th:text="${account.accountNumber}">Account Number</span><br>
+            <strong>Balance:</strong> <span th:text="${account.balance}">Balance</span>
+        </li>
+    </ul>
+
+    <div class="mt-3">
+        <a th:href="@{/users/update/{id}(id=${user.id})}" class="btn btn-warning">Edit</a>
+        <a href="/users" class="btn btn-secondary">Back to Users List</a>
+    </div>
+</div>
+</body>
+</html>
