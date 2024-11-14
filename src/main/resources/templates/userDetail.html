@@ -11,13 +11,16 @@
         <li class="list-group-item"><strong>First Name:</strong> <span th:text="${user.firstName}">First Name</span></li>
         <li class="list-group-item"><strong>Last Name:</strong> <span th:text="${user.lastName}">Last Name</span></li>
         <li class="list-group-item"><strong>Email:</strong> <span th:text="${user.email}">Email</span></li>
+        <li class="list-group-item"><strong>Phone:</strong> <span th:text="${user.phone}">Phone</span></li>
+        <li class="list-group-item"><strong>Address:</strong> <span th:text="${user.address}">Address</span></li>
+        <li class="list-group-item"><strong>City:</strong> <span th:text="${user.city}">City</span></li>
+        <li class="list-group-item"><strong>Zip Code:</strong> <span th:text="${user.zipCode}">Zip Code</span></li>
     </ul>
 
-    <!-- Accounts Section -->
     <h3 class="mt-4">Accounts</h3>
     <ul class="list-group">
         <li class="list-group-item" th:each="account : ${user.accounts}">
-            <strong>Account Number:</strong> <span th:text="${account.accountNumber}">Account Number</span><br>
+            <strong>Account Number:</strong> <span th:text="${account.accountNumber}">Account Number</span> |
             <strong>Balance:</strong> <span th:text="${account.balance}">Balance</span>
         </li>
     </ul>
